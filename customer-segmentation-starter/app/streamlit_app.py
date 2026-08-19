@@ -1,6 +1,8 @@
 import sys
 import tempfile
 from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 import streamlit as st
 from src.data_loader import load_retail_data
 from src.preprocess import clean_retail_data
@@ -8,8 +10,6 @@ from src.rfm import build_rfm, add_rfm_scores
 from src.segmentation import label_segments
 from src.cohort import build_cohort_retention
 import pandas as pd
-
-sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
