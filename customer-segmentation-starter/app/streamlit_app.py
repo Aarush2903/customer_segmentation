@@ -9,6 +9,7 @@ from src.segmentation import label_segments
 from src.cohort import build_cohort_retention
 import pandas as pd
 
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
