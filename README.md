@@ -1,8 +1,6 @@
 # Customer Segmentation and Cohort Analytics
 
-A Streamlit dashboard that segments customers based on RFM (Recency, Frequency, Monetary) behavior and tracks retention patterns across acquisition cohorts to identify high-value and high-risk customer groups.
-
-**Live app:** `localhost:8501` (run locally via `streamlit run app/streamlit_app.py`)
+A portfolio project that segments customers based on behavior and lifecycle features, then tracks retention patterns across cohorts to identify high-value and high-risk groups.
 
 ## Problem statement
 
@@ -16,22 +14,19 @@ The output is intended for product, marketing, retention, and customer success d
 
 - Build a clean customer-level analytical dataset.
 - Engineer lifecycle and behavioral features.
-- Segment customers using RFM scoring.
+- Segment customers using clustering or business-rule-based grouping.
 - Perform cohort retention analysis.
-- Deliver findings in an interactive Streamlit dashboard.
+- Deliver findings in a dashboard or shareable report.
 
 ## Dataset
 
-**Used:** Online Retail dataset (`Online Retail.xlsx`, ~22.6MB) — UK-based online retailer transactions, uploaded directly through the dashboard.
-
-Columns: `InvoiceNo`, `StockCode`, `Description`, `Quantity`, `InvoiceDate`, `UnitPrice`, `CustomerID`, `Country`.
-
-Other datasets this pipeline generalizes to:
+Suggested inputs:
+- Ecommerce or online retail transactions.
 - Telecom churn dataset.
 - Bank customer churn dataset.
 - SaaS subscription dataset.
 
-Minimum required columns for any dataset used with this app:
+Minimum required columns:
 - `customer_id`
 - `transaction_date` or `signup_date`
 - `amount` or revenue proxy
@@ -68,48 +63,41 @@ customer-segmentation-cohort/
 ## Methodology
 
 ### 1. Data preparation
-- Upload the raw Online Retail workbook directly in the app.
-- Clean the transaction table and derive a `SalesLineTotal` column (`Quantity × UnitPrice`).
-- Standardize dates and drop invalid/duplicate rows.
+- Audit missing values, duplicates, and invalid IDs.
+- Standardize dates and category labels.
+- Create a customer-level analytical base table.
 
 ### 2. Feature engineering
-- Recency — days since each customer's last purchase.
-- Frequency — number of distinct purchases per customer.
-- Monetary — total spend per customer.
+Create features such as:
+- Tenure.
+- Recency.
+- Frequency.
+- Monetary value.
+- Product breadth.
+- Complaint or inactivity indicators.
 
-### 3. Segmentation (RFM scoring)
-- Score each customer 1–4 on Recency, Frequency, and Monetary (`R_Score`, `F_Score`, `M_Score`), combined into an `RFM_Score`.
-- Map scores to named segments: **Champions**, **Loyal Customers**, **Potential Loyalist**, **At Risk**, **Hibernating**.
-- Display segment counts as a bar chart for a quick distribution view.
+### 3. Segmentation
+Possible approaches:
+- RFM scoring.
+- KMeans clustering.
+- Hierarchical clustering.
+- Rule-based business segmentation.
 
 ### 4. Cohort analysis
-- Group customers into cohorts by first purchase month (`CohortMonth`).
-- Track retention rate by cohort age (months 1–13+) in a cohort retention table.
-- Compare retention decay across cohorts to spot patterns (e.g. the Dec 2010 cohort retains far better than later cohorts).
+- Group customers by signup month or first purchase month.
+- Measure retention by cohort age.
+- Compare revenue and churn across cohorts.
 
 ### 5. Communication layer
-- Interactive Streamlit dashboard: upload → cleaned transactions → RFM table → segment counts → cohort retention, all in one flow.
-
-## Dashboard walkthrough
-
-1. **Upload & preview** — upload the Online Retail workbook; the app previews raw rows and shows the cleaned transaction table with `SalesLineTotal` computed.
-
-   ![Upload and cleaned transaction preview](reports/figures/01_upload_preview.png)
-
-2. **RFM table & segment counts** — per-customer Recency, Frequency, Monetary values, their R/F/M scores, the resulting segment label, and a bar chart of customer counts across the five segments (Hibernating and Loyal Customers are typically the largest groups in this dataset).
-
-   ![RFM table and segment counts](reports/figures/02_rfm_segments.png)
-
-3. **Cohort retention** — a month-by-cohort-age retention matrix showing what fraction of each signup cohort is still active in subsequent months.
-
-   ![Cohort retention table](reports/figures/03_cohort_retention.png)
+- Build a Streamlit dashboard or BI report.
+- Add segment-level business recommendations.
 
 ## Expected outputs
 
 - Segment definitions with business interpretation.
-- Cohort retention heatmap/table.
+- Cohort retention heatmap.
 - Revenue and churn breakdown by segment.
-- Interactive dashboard (screenshots below).
+- Dashboard screenshots or interactive app.
 
 ## Evaluation
 
@@ -140,25 +128,21 @@ To run the app:
 streamlit run app/streamlit_app.py
 ```
 
-Then open `localhost:8501` and upload your transactions file.
-
 ## Portfolio value
 
 This project demonstrates:
 - Customer analytics.
 - Feature engineering.
-- RFM-based segmentation.
+- Clustering.
 - Cohort retention analysis.
-- Interactive dashboard building and business storytelling.
+- Business storytelling.
 
 ## Resume bullet
 
-Built a customer segmentation and cohort analytics dashboard using Python and Streamlit, applying RFM scoring to segment customers into five behavioral groups and cohort retention analysis to surface retention opportunities from 500K+ transaction records.
+Built a customer segmentation and cohort analytics pipeline using Python, SQL, and clustering to identify high-value and high-risk customer groups and surface retention opportunities.
 
 ## Next improvements
 
-- Add clustering-based segmentation (KMeans/hierarchical) alongside RFM scoring, for comparison.
-- Add revenue and churn breakdown per segment.
 - Add uplift-style retention experiments.
+- Compare unsupervised and rule-based segmentation.
 - Add automated segment refresh pipeline.
-- Deploy the app (Streamlit Community Cloud or similar) instead of running locally only.
